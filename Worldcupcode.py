@@ -8,8 +8,14 @@ import plotly.express as px
 
 data = pd.read_csv("worldcupdata.csv")
 
-data['Winner'] = data['Winner'].replace({'West Germany': 'Germany'})
-data['Runner-up'] = data['Runner-up'].replace({'West Germany': 'Germany'})
+data['Winner'] = data['Winner'].replace({
+    'West Germany': 'Germany',
+    'England': 'United Kingdom'
+})
+data['Runner-up'] = data['Runner-up'].replace({
+    'West Germany': 'Germany',
+    'England': 'United Kingdom'
+})
 
 winners_count = data['Winner'].value_counts().reset_index()
 winners_count.columns = ['Country', 'Wins']
