@@ -31,7 +31,7 @@ app.title = "World Cup Dashboard"
 server = app.server
 
 app.layout = html.Div([
-    html.H1("FIFA World Cup Winners & Runner-ups Dashboard"),
+    html.H1("FIFA Soccer World Cup Dashboard"),
     dcc.Graph(
         id='choropleth-map',
         figure=choropleth_fig
@@ -64,6 +64,7 @@ app.layout = html.Div([
     Output('country-wins-output', 'children'),
     Input('country-dropdown', 'value')
 )
+
 def update_country_wins(selected_country):
     if selected_country is None:
         return "Please select a country to see the number of wins."
@@ -74,6 +75,7 @@ def update_country_wins(selected_country):
     Output('year-final-output', 'children'),
     Input('year-dropdown', 'value')
 )
+
 def update_year_final(selected_year):
     if selected_year is None:
         return "Please select a year to see the final match details."
