@@ -17,10 +17,24 @@ winners_count.columns = ['Country', 'Wins']
 choropleth_fig = px.choropleth(
     winners_count,
     locations='Country',
-    locationmode="country names",
+    locationmode='country names',
     color='Wins',
-    color_continuous_scale='Viridis',
-    title="FIFA World Cup Wins by Country"
+    hover_name='Country',  # Display country name on hover
+    color_continuous_scale='Plasma',  # You can try other scales like 'Viridis', 'Blues', 'Turbo', etc.
+    range_color=(0, winners_count['Wins'].max()),
+    labels={'Wins': 'Number of World Cup Wins'},
+    title='FIFA World Cup Wins by Country'
+)
+
+# Update the layout for a cleaner look
+choropleth_fig.update_layout(
+    template='plotly_white',         # Light background
+    margin=dict(l=0, r=0, t=50, b=0), # Tight margins around the figure
+    geo=dict(
+        showframe=False,
+        showcoastlines=True,
+        projection_type='natural earth'  # Natural Earth projection looks nicer
+    )
 )
 
 all_winners = sorted(data['Winner'].unique())
