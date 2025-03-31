@@ -9,6 +9,7 @@ import plotly.express as px
 
 # Load and preprocess the data
 data = pd.read_csv("worldcupdata.csv")
+server = app.server
 
 # Ensure West Germany and Germany are treated as the same country
 data['Winner'] = data['Winner'].replace({'West Germany': 'Germany'})
@@ -106,4 +107,4 @@ def update_year_final(selected_year):
     return f"In {selected_year}, Winner(s): {winners_str} | Runner-up(s): {runners_str}"
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
