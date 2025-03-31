@@ -9,7 +9,6 @@ import plotly.express as px
 
 # Load and preprocess the data
 data = pd.read_csv("worldcupdata.csv")
-server = app.server
 
 # Ensure West Germany and Germany are treated as the same country
 data['Winner'] = data['Winner'].replace({'West Germany': 'Germany'})
@@ -38,6 +37,7 @@ years = sorted(data['Year'].unique())
 # Initialize the Dash app
 app = dash.Dash(__name__)
 app.title = "World Cup Dashboard"
+server = app.server
 
 # App layout definition
 app.layout = html.Div([
