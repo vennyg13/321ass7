@@ -1,5 +1,4 @@
-# Published Dashboard URL: https://your-dashboard-url.render.com  
-# Password: your_password_if_applicable
+# URL: https://your-dashboard-url.render.com  
 
 import pandas as pd
 import numpy as np
@@ -7,18 +6,14 @@ import dash
 from dash import dcc, html, Input, Output
 import plotly.express as px
 
-# Load and preprocess the data
 data = pd.read_csv("worldcupdata.csv")
 
-# Ensure West Germany and Germany are treated as the same country
 data['Winner'] = data['Winner'].replace({'West Germany': 'Germany'})
 data['Runner-up'] = data['Runner-up'].replace({'West Germany': 'Germany'})
 
-# Create a summary dataset of World Cup wins by country
 winners_count = data['Winner'].value_counts().reset_index()
 winners_count.columns = ['Country', 'Wins']
 
-# Create the choropleth map figure using Plotly Express
 choropleth_fig = px.choropleth(
     winners_count,
     locations='Country',
@@ -28,32 +23,21 @@ choropleth_fig = px.choropleth(
     title="FIFA World Cup Wins by Country"
 )
 
-# List of all winning countries for display
 all_winners = sorted(data['Winner'].unique())
-
-# List of years in the dataset
 years = sorted(data['Year'].unique())
 
-# Initialize the Dash app
 app = dash.Dash(__name__)
 app.title = "World Cup Dashboard"
 server = app.server
 
-# App layout definition
 app.layout = html.Div([
     html.H1("FIFA World Cup Winners & Runner-ups Dashboard"),
-    
-    # Choropleth Map
     dcc.Graph(
         id='choropleth-map',
         figure=choropleth_fig
     ),
-    
-    # Display all winning countries
     html.H2("All Countries That Have Ever Won the World Cup:"),
     html.Ul([html.Li(country) for country in all_winners]),
-    
-    # Dropdown for Country Wins Lookup
     html.H2("Country Wins Lookup"),
     html.Div([
         html.Label("Select a Country:"),
@@ -64,8 +48,6 @@ app.layout = html.Div([
         ),
         html.Div(id='country-wins-output', style={'marginTop': 20})
     ]),
-    
-    # Dropdown for Yearly Final Lookup
     html.H2("Yearly Final Lookup"),
     html.Div([
         html.Label("Select a Year:"),
@@ -78,7 +60,6 @@ app.layout = html.Div([
     ])
 ])
 
-# Callback to update the number of wins for a selected country
 @app.callback(
     Output('country-wins-output', 'children'),
     Input('country-dropdown', 'value')
@@ -89,7 +70,6 @@ def update_country_wins(selected_country):
     wins = (data['Winner'] == selected_country).sum()
     return f"{selected_country} has won the World Cup {wins} time(s)."
 
-# Callback to update the winner and runner-up details for a selected year
 @app.callback(
     Output('year-final-output', 'children'),
     Input('year-dropdown', 'value')
