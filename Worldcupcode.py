@@ -107,4 +107,4 @@ def update_year_final(selected_year):
     return f"In {selected_year}, Winner(s): {winners_str} | Runner-up(s): {runners_str}"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run_server(debug=True)
